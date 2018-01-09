@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Vegetable;
+use AppBundle\Form\VegetableType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +15,21 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        $em = $this->getDoctrine()->getManager();
+        $vegetable = new Vegetable();
+        $vegetableForm = $this->createForm(VegetableType::class, $vegetable);
+        $vegetableForm->handleRequest($request);
+        if ($vegetableForm->isSubmitted() && $vegetableForm->isValid()) {
+            $em->persist($vegetable);
+            $em->flush();
+        }
+
+        $vegetables = $em->getRepository('AppBundle:Vegetable')
+            ->findAll();
+
+        return $this->render('backoffice/vegetables.html.twig', array(
+            'vegetableForm' => $vegetableForm->createView(),
+            'vegetables' => $vegetables,
+        ));
     }
 }

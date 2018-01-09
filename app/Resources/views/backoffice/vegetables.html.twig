@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div class="container">
+            {{ form_start(vegetableForm) }}
+                <div class="form-group row">
+                    {{ form_label(vegetableForm.name, 'Espèce', {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                    {{ form_errors(vegetableForm.name) }}
+                    <div class="col-md-10">
+                    {{ form_widget(vegetableForm.name, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.unit, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.unit) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.unit, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.price, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.price) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.price, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.surfaceNeeded, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.surfaceNeeded) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.surfaceNeeded, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.objective, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.objective) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.objective, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.fieldedYield, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.fieldedYield) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.fieldedYield, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.shelteredYield, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.shelteredYield) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.shelteredYield, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.quantity, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.quantity) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.quantity, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.amount, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.amount) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.amount, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.distributionWeeks, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.distributionWeeks) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.distributionWeeks, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.amountPerWeek, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.amountPerWeek) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.amountPerWeek, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(vegetableForm.category, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_errors(vegetableForm.category) }}
+                <div class="col-md-10">
+                {{ form_widget(vegetableForm.category, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <input type="submit" value="Enregistrer légume" class="btn btn-primary float-right" />
+            {{ form_end(vegetableForm) }}
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <td>Espèce</td>
+                        <td>Unité</td>
+                        <td>Rendement plein champ / Ha</td>
+                        <td>Rendement abris / Ha</td>
+                        <td>Surface nécessaire en Ha</td>
+                        <td>Objectif de production en kg</td>
+                        <td>Quantité à produire en kg (avec pertes de 30%)</td>
+                        <td>Montant</td>
+                        <td># semaines de distribution</td>
+                        <td>Quantité par semaine</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for vegetable in vegetables %}
+                    {{ vegetable.name }}
+                    {{ vegetable.unit }}
+                    {{ vegetable.price }}
+                    {{ vegetable.fieldedYield }}
+                    {{ vegetable.shelteredYield }}
+                    {{ vegetable.surfaceNeeded }}
+                    {{ vegetable.objective }}
+                    {{ vegetable.quantity }}
+                    {{ vegetable.amount }}
+                    {{ vegetable.distributionWeeks }}
+                    {{ vegetable.amountPerWeek }}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
