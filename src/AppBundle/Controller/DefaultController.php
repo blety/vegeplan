@@ -20,6 +20,8 @@ class DefaultController extends Controller
         $vegetableForm = $this->createForm(VegetableType::class, $vegetable);
         $vegetableForm->handleRequest($request);
         if ($vegetableForm->isSubmitted() && $vegetableForm->isValid()) {
+            /*$surfaceNeeded = $vegetable->getObjective() / $vegetable->get
+            $vegetable->setSurfaceNeeded();*/
             $em->persist($vegetable);
             $em->flush();
         }

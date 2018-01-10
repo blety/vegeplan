@@ -31,7 +31,8 @@ class Vegetable
     /**
      * @var string
      *
-     * @ORM\Column(name="unit", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Unit")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $unit;
 
@@ -101,7 +102,8 @@ class Vegetable
     /**
      * @var int
      *
-     * @ORM\Column(name="category", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\VegetableCategory")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 

@@ -1,96 +1,81 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Nouveau légume
+{% endblock %}
 {% block body %}
     <div id="wrapper">
         <div class="container">
+            <h1 class="text-center">Nouveau légume</h1>
             {{ form_start(vegetableForm) }}
                 <div class="form-group row">
-                    {{ form_label(vegetableForm.name, 'Espèce', {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                    {{ form_label(vegetableForm.name, 'Espèce', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                     {{ form_errors(vegetableForm.name) }}
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                     {{ form_widget(vegetableForm.name, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.unit, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.unit, 'Unité', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.unit) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.unit, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.price, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.price, 'Prix', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.price) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.price, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.surfaceNeeded, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
-                {{ form_errors(vegetableForm.surfaceNeeded) }}
-                <div class="col-md-10">
-                {{ form_widget(vegetableForm.surfaceNeeded, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="form-group row">
-                {{ form_label(vegetableForm.objective, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.objective, 'Objectif de production (kg)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.objective) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.objective, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.fieldedYield, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.fieldedYield, 'Rendement plein champ (/Ha)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.fieldedYield) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.fieldedYield, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.shelteredYield, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.shelteredYield, 'Rendement abris (/Ha)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.shelteredYield) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.shelteredYield, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.quantity, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.quantity, 'Quantité à produire (kg) avec marge de sécurité (30%)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.quantity) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.quantity, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.amount, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
-                {{ form_errors(vegetableForm.amount) }}
-                <div class="col-md-10">
-                {{ form_widget(vegetableForm.amount, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="form-group row">
-                {{ form_label(vegetableForm.distributionWeeks, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.distributionWeeks, 'Nombre de semaines de distribution', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.distributionWeeks) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.distributionWeeks, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.amountPerWeek, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
-                {{ form_errors(vegetableForm.amountPerWeek) }}
-                <div class="col-md-10">
-                {{ form_widget(vegetableForm.amountPerWeek, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="form-group row">
-                {{ form_label(vegetableForm.category, null, {'label_attr': {'class': 'col-md-2 control-label'}}) }}
+                {{ form_label(vegetableForm.category, 'Catégorie', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.category) }}
-                <div class="col-md-10">
+                <div class="col-md-9">
                 {{ form_widget(vegetableForm.category, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
 
             <input type="submit" value="Enregistrer légume" class="btn btn-primary float-right" />
             {{ form_end(vegetableForm) }}
+            </div>
+        <div class="container-fluid">
 
             <table class="table">
                 <thead class="thead-dark">

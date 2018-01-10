@@ -17,14 +17,11 @@ class VegetableType extends AbstractType
             ->add('name')
             ->add('unit')
             ->add('price')
-            ->add('surfaceNeeded')
             ->add('objective')
             ->add('fieldedYield')
             ->add('shelteredYield')
             ->add('quantity')
-            ->add('amount')
             ->add('distributionWeeks')
-            ->add('amountPerWeek')
             ->add('category');
     }/**
      * {@inheritdoc}
