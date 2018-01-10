@@ -22,7 +22,9 @@ class VegetableType extends AbstractType
             ->add('shelteredYield')
             ->add('quantity')
             ->add('distributionWeeks')
-            ->add('category');
+            ->add('category')
+            ->add('location')
+        ;
     }/**
      * {@inheritdoc}
      */

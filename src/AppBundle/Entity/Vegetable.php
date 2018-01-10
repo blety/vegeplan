@@ -60,14 +60,14 @@ class Vegetable
     /**
      * @var int
      *
-     * @ORM\Column(name="fieldedYield", type="integer")
+     * @ORM\Column(name="fieldedYield", type="integer", nullable=true)
      */
     private $fieldedYield;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="shelteredYield", type="integer")
+     * @ORM\Column(name="shelteredYield", type="integer", nullable=true)
      */
     private $shelteredYield;
 
@@ -106,6 +106,14 @@ class Vegetable
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\VegetableLocation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $location;
 
 
     /**
@@ -307,7 +315,7 @@ class Vegetable
      */
     public function getAmount()
     {
-        return $this->amount;
+        return $this->quantity * $this->price;
     }
 
     /**
@@ -355,7 +363,11 @@ class Vegetable
      */
     public function getAmountPerWeek()
     {
-        return $this->amountPerWeek;
+        if ($this->getDistributionWeeks() !== 0) {
+            return $this->getQuantity() / $this->getDistributionWeeks();
+        }else {
+            return 0;
+        }
     }
 
     /**
@@ -404,5 +416,29 @@ class Vegetable
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set location
+     *
+     * @param integer $location
+     *
+     * @return Vegetable
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return int
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }
