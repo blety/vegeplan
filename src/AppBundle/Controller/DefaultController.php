@@ -20,8 +20,16 @@ class DefaultController extends Controller
         $vegetableForm = $this->createForm(VegetableType::class, $vegetable);
         $vegetableForm->handleRequest($request);
         if ($vegetableForm->isSubmitted() && $vegetableForm->isValid()) {
-            /*$surfaceNeeded = $vegetable->getObjective() / $vegetable->get
-            $vegetable->setSurfaceNeeded();*/
+            $surfaceNeeded = 0;
+            if ($vegetable->getLocation()->getName() == 'Plein champ' && !is_null($vegetable->getFieldedYield()) && $vegetable->getFieldedYield() !== 0) {
+                $surfaceNeeded = $vegetable->getObjective() / $vegetable->getFieldedYield();
+            }elseif ($vegetable->getLocation()->getName() == 'Abris' && !is_null($vegetable->getShelteredYield()) && $vegetable->getShelteredYield() !== 0) {
+                $surfaceNeeded = $vegetable->getObjective() / $vegetable->getShelteredYield();
+            }
+            $vegetable->setSurfaceNeeded($surfaceNeeded);
+            $vegetable->setAmount($vegetable->getQuantity() * $vegetable->getPrice());
+            $amountPerWeek = $vegetable->getDistributionWeeks() === 0 ? 0 : $vegetable->getQuantity() / $vegetable->getDistributionWeeks();
+            $vegetable->setAmountPerWeek($amountPerWeek);
             $em->persist($vegetable);
             $em->flush();
         }

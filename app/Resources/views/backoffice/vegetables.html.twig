@@ -83,12 +83,14 @@
             {{ form_end(vegetableForm) }}
             </div>
         <div class="container-fluid">
-
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <td>Espèce</td>
+                        <td>Catégorie</td>
+                        <td>Emplacement</td>
                         <td>Unité</td>
+                        <td>Prix</td>
                         <td>Rendement plein champ / Ha</td>
                         <td>Rendement abris / Ha</td>
                         <td>Surface nécessaire en Ha</td>
@@ -97,21 +99,36 @@
                         <td>Montant</td>
                         <td># semaines de distribution</td>
                         <td>Quantité par semaine</td>
+                        <td>Edit</td>
+                        <td>Delete</td>
                     </tr>
                 </thead>
                 <tbody>
                 {% for vegetable in vegetables %}
-                    {{ vegetable.name }}
-                    {{ vegetable.unit }}
-                    {{ vegetable.price }}
-                    {{ vegetable.fieldedYield }}
-                    {{ vegetable.shelteredYield }}
-                    {{ vegetable.surfaceNeeded }}
-                    {{ vegetable.objective }}
-                    {{ vegetable.quantity }}
-                    {{ vegetable.amount }}
-                    {{ vegetable.distributionWeeks }}
-                    {{ vegetable.amountPerWeek }}
+                    <tr>
+                        <td>{{ vegetable.name }}</td>
+                        <td>{{ vegetable.category.name }}</td>
+                        <td>{{ vegetable.location.name }}</td>
+                        <td>{{ vegetable.unit }}</td>
+                        <td>{{ vegetable.price |number_format(2, ',', ' ')}}</td>
+                        <td>{{ vegetable.fieldedYield }}</td>
+                        <td>{{ vegetable.shelteredYield }}</td>
+                        <td>{{ vegetable.surfaceNeeded |number_format(2, ',', ' ') }}</td>
+                        <td>{{ vegetable.objective }}</td>
+                        <td>{{ vegetable.quantity }}</td>
+                        <td> {{ vegetable.amount }}</td>
+                        <td>{{ vegetable.distributionWeeks }}</td>
+                        <td>{{ vegetable.amountPerWeek |number_format(2, ',', ' ')}}</td>
+                        <td><a href="#" class="btn btn-outline-primary">
+                                <img src="{{ asset('lib/open-iconic-master/svg/pencil.svg') }}" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-outline-danger">
+                                <img src="{{ asset('lib/open-iconic-master/svg/trash.svg') }}" />
+                            </a>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>

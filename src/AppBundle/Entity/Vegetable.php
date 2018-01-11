@@ -39,14 +39,14 @@ class Vegetable
     /**
      * @var string
      *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="price", type="float")
      */
     private $price;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="surfaceNeeded", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="surfaceNeeded", type="float")
      */
     private $surfaceNeeded;
 
