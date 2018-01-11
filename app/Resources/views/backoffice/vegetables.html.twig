@@ -79,28 +79,28 @@
                 </div>
             </div>
 
-            <input type="submit" value="Enregistrer légume" class="btn btn-primary float-right" />
+            <input type="submit" value="Enregistrer légume" class="btn btn-primary float-right mb-4" />
             {{ form_end(vegetableForm) }}
             </div>
         <div class="container-fluid">
-            <table class="table">
+            <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <td>Espèce</td>
-                        <td>Catégorie</td>
-                        <td>Emplacement</td>
-                        <td>Unité</td>
-                        <td>Prix</td>
-                        <td>Rendement plein champ / Ha</td>
-                        <td>Rendement abris / Ha</td>
-                        <td>Surface nécessaire en Ha</td>
-                        <td>Objectif de production en kg</td>
-                        <td>Quantité à produire en kg (avec pertes de 30%)</td>
-                        <td>Montant</td>
-                        <td># semaines de distribution</td>
-                        <td>Quantité par semaine</td>
-                        <td>Edit</td>
-                        <td>Delete</td>
+                        <td scope="col" class="font-weight-bold">Espèce</td>
+                        <td scope="col" class="font-weight-bold">Catégorie</td>
+                        <td scope="col" class="font-weight-bold">Emplacement</td>
+                        <td scope="col" class="font-weight-bold">Unité</td>
+                        <td scope="col" class="font-weight-bold">Prix</td>
+                        <td scope="col" class="font-weight-bold">Rendement plein champ (/Ha)</td>
+                        <td scope="col" class="font-weight-bold">Rendement abris (/Ha)</td>
+                        <td scope="col" class="font-weight-bold">Surface nécessaire (Ha)</td>
+                        <td scope="col" class="font-weight-bold">Objectif de production (kg)</td>
+                        <td scope="col" class="font-weight-bold">Quantité à produire (kg) (avec pertes de 30%)</td>
+                        <td scope="col" class="font-weight-bold">Montant</td>
+                        <td scope="col" class="font-weight-bold"># semaines de distribution</td>
+                        <td scope="col" class="font-weight-bold">Quantité par semaine</td>
+                        <td colspan="2"></td>
+                        <td><td>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,13 +119,13 @@
                         <td> {{ vegetable.amount }}</td>
                         <td>{{ vegetable.distributionWeeks }}</td>
                         <td>{{ vegetable.amountPerWeek |number_format(2, ',', ' ')}}</td>
-                        <td><a href="#" class="btn btn-outline-primary">
-                                <img src="{{ asset('lib/open-iconic-master/svg/pencil.svg') }}" />
+                        <td colspan="2"><a href="{{path('homepage', {'id': vegetable.id})}}" class="btn btn-outline-primary">
+                                <img src="{{ asset('lib/glyphicons/glyphicons/png/glyphicons-31-pencil.png') }}" />
                             </a>
                         </td>
                         <td>
                             <a href="#" class="btn btn-outline-danger">
-                                <img src="{{ asset('lib/open-iconic-master/svg/trash.svg') }}" />
+                                <img src="{{ asset('lib/glyphicons/glyphicons/png/glyphicons-17-bin.png') }}" />
                             </a>
                         </td>
                     </tr>
