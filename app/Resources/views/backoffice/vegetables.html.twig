@@ -11,17 +11,16 @@
                 <div class="form-group row">
                     {{ form_label(vegetableForm.name, 'Espèce', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                     {{ form_errors(vegetableForm.name) }}
-                    <div class="col-md-9">
+                    <div class="col-md-5">
                     {{ form_widget(vegetableForm.name, {'attr': {'class': 'form-control'}}) }}
                     </div>
+                    {{ form_label(vegetableForm.unit, 'Unité', {'label_attr': {'class': 'col-md-1 control-label text-right'}}) }}
+                    {{ form_errors(vegetableForm.unit) }}
+                    <div class="col-md-3">
+                        {{ form_widget(vegetableForm.unit, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                 </div>
-            <div class="form-group row">
-                {{ form_label(vegetableForm.unit, 'Unité', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
-                {{ form_errors(vegetableForm.unit) }}
-                <div class="col-md-9">
-                {{ form_widget(vegetableForm.unit, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
+
             <div class="form-group row">
                 {{ form_label(vegetableForm.price, 'Prix', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.price) }}
@@ -39,15 +38,14 @@
             <div class="form-group row">
                 {{ form_label(vegetableForm.fieldedYield, 'Rendement plein champ (/Ha)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.fieldedYield) }}
-                <div class="col-md-9">
+                <div class="col-md-3">
                 {{ form_widget(vegetableForm.fieldedYield, {'attr': {'class': 'form-control'}}) }}
                 </div>
-            </div>
-            <div class="form-group row">
-                {{ form_label(vegetableForm.shelteredYield, 'Rendement abris (/Ha)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+
+                {{ form_label(vegetableForm.shelteredYield, 'Rendement abris (/Ha)', {'label_attr': {'class': 'col-md-3 control-label text-right'}}) }}
                 {{ form_errors(vegetableForm.shelteredYield) }}
-                <div class="col-md-9">
-                {{ form_widget(vegetableForm.shelteredYield, {'attr': {'class': 'form-control'}}) }}
+                <div class="col-md-3">
+                    {{ form_widget(vegetableForm.shelteredYield, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
@@ -67,25 +65,24 @@
             <div class="form-group row">
                 {{ form_label(vegetableForm.category, 'Catégorie', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.category) }}
-                <div class="col-md-9">
+                <div class="col-md-4">
                 {{ form_widget(vegetableForm.category, {'attr': {'class': 'form-control'}}) }}
                 </div>
-            </div>
-            <div class="form-group row">
-                {{ form_label(vegetableForm.location, 'Emplacement', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+
+                {{ form_label(vegetableForm.location, 'Emplacement', {'label_attr': {'class': 'col-md-2 control-labe text-right'}}) }}
                 {{ form_errors(vegetableForm.location) }}
-                <div class="col-md-9">
+                <div class="col-md-3">
                     {{ form_widget(vegetableForm.location, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
 
-            <input type="submit" value="Enregistrer légume" class="btn btn-primary float-right" />
+            <input type="submit" value="Enregistrer légume" class="btn btn-primary float-right mb-4" />
             {{ form_end(vegetableForm) }}
             </div>
         <div class="container-fluid">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="font-weight-bold">
                         <td>Espèce</td>
                         <td>Catégorie</td>
                         <td>Emplacement</td>
@@ -109,22 +106,22 @@
                         <td>{{ vegetable.name }}</td>
                         <td>{{ vegetable.category.name }}</td>
                         <td>{{ vegetable.location.name }}</td>
-                        <td>{{ vegetable.unit }}</td>
-                        <td>{{ vegetable.price |number_format(2, ',', ' ')}}</td>
-                        <td>{{ vegetable.fieldedYield }}</td>
-                        <td>{{ vegetable.shelteredYield }}</td>
-                        <td>{{ vegetable.surfaceNeeded |number_format(2, ',', ' ') }}</td>
-                        <td>{{ vegetable.objective }}</td>
-                        <td>{{ vegetable.quantity }}</td>
-                        <td> {{ vegetable.amount }}</td>
-                        <td>{{ vegetable.distributionWeeks }}</td>
-                        <td>{{ vegetable.amountPerWeek |number_format(2, ',', ' ')}}</td>
-                        <td><a href="#" class="btn btn-outline-primary">
+                        <td class="text-center">{{ vegetable.unit }}</td>
+                        <td class="text-center">{{ vegetable.price |number_format(2, ',', ' ')}}</td>
+                        <td class="text-center">{{ vegetable.fieldedYield }}</td>
+                        <td class="text-center">{{ vegetable.shelteredYield }}</td>
+                        <td class="text-center">{{ vegetable.surfaceNeeded |number_format(2, ',', ' ') }}</td>
+                        <td class="text-center">{{ vegetable.objective }}</td>
+                        <td class="text-center">{{ vegetable.quantity }}</td>
+                        <td class="text-center"> {{ vegetable.amount }}</td>
+                        <td class="text-center">{{ vegetable.distributionWeeks }}</td>
+                        <td class="text-center">{{ vegetable.amountPerWeek |number_format(2, ',', ' ')}}</td>
+                        <td><a href="{{ path('homepage', {'action': 'create', 'id': vegetable.id}) }}" class="btn btn-outline-primary">
                                 <img src="{{ asset('lib/open-iconic-master/svg/pencil.svg') }}" />
                             </a>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-outline-danger">
+                            <a href="{{ path('homepage', {'action': 'delete', 'id': vegetable.id}) }}" class="btn btn-outline-danger">
                                 <img src="{{ asset('lib/open-iconic-master/svg/trash.svg') }}" />
                             </a>
                         </td>

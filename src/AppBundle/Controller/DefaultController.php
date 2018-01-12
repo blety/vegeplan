@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Vegetable;
 use AppBundle\Form\VegetableType;
+use AppBundle\Repository\VegetableRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,12 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/{action}/{id}", name="homepage", defaults={"action": "create", "id": null})
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $action, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $vegetable = new Vegetable();
+
+        if (!is_null($id)) {
+            $vegetable = $em->getRepository(Vegetable::class)->findOneBy(array('id' => $id));
+        }else {
+            $vegetable = new Vegetable();
+        }
+
+        if ($action == "delete" && !is_null($vegetable)) {
+            $em->remove($vegetable);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl("homepage"));
+        }
+
         $vegetableForm = $this->createForm(VegetableType::class, $vegetable);
         $vegetableForm->handleRequest($request);
         if ($vegetableForm->isSubmitted() && $vegetableForm->isValid()) {
@@ -35,7 +49,7 @@ class DefaultController extends Controller
         }
 
         $vegetables = $em->getRepository('AppBundle:Vegetable')
-            ->findAll();
+            ->findBy(array(), array('name' => 'ASC'));
 
         return $this->render('backoffice/vegetables.html.twig', array(
             'vegetableForm' => $vegetableForm->createView(),
