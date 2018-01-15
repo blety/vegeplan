@@ -1,20 +1,35 @@
 $(document).ready(function () {
+    let initialX = 0;
+    let initialY = 0;
+    
+    let points = [[initialX, initialY]];
+    
     $('span.grid-cell').on('click',function(){
         const x = $(this).data('x');
         const y = $(this).data('y');
-
-
-        /*$.ajax({
-            url:Routing.generate('settings_vendors_module_business_category_edit',{'businessCategoryId':businessCategoryId}),
-            type: "POST",
-            success: function (data) {
-                $('.modalEdit').html(data);
-                $('#business-category-edit').modal('show');
-                // On utilise cette fonction une nouvelle fois pour afficher correctement les switchs de la popup, puisqu'ils sont ajoutés dynamiquement.
-                activeSwitch()
-                $(document).plainOverlay('hide');
-            }
-        });*/
+        
+        points.push([x, y]);
+        if (x == initialX && y == initialY) {
+            points.splice(0,1);
+            points.splice(points.length-1, 1);
+            console.log(points);
+            colorShape(points);
+        }
+        
+        if (initialX == 0 && initialY ==0) {
+            initialX = x;
+            initialY = y;
+        }
+        
+        $(this).css('backgroundColor', 'blue');
+        $('span.grid-cell').hover(function() {
+           $(this).css('backgroundColor', 'green'); 
+        }, function() {
+            
+        });
     });
-
+    
+    function colorShape(points) {
+     //TODO
+    }
 });
