@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/location.css') }}" />
+{% endblock %}
+
 {% block title %}
     Nouveau légume
 {% endblock %}
@@ -16,20 +20,34 @@
 {% block body %}
     <div id="wrapper">
         <div class="container">
-            <h1 class="text-center">Emplacement des légumes</h1>
-                {{ form_start(gridForm) }}
-                    {{ form_label(gridForm.name) }}
-                    {{ form_errors(gridForm.name) }}
-                    {{ form_widget(gridForm.name) }}
-                    {% for i in 1..grid.x %}
-                        <div class="row">
-                        {% for j in 1..grid.y %}
-                            <span class="border border-secondary p-4 grid-cell" data-x="{{ j }}" data-y="{{ i }}"></span>
-                        {% endfor %}
-                        </div>
-                    {% endfor %}
-                {{ form_end(gridForm) }}
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center">Emplacement des légumes</h1>
+                    <h2 class="text-center">Terrain <input type="text" value="{{ location.name }}" placeholder="Nom du terrain" /></h2>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="location" ondragover="allowDrop(event)" ondrop="drop(event)">
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div id="vegetables-list">
+                        <ul>
+                            {% for vegetable in allVegetables %}
+                            <li><span id="{{ 'vegetable-' ~ vegetable.id }}"
+                                      draggable="true"
+                                      ondragstart="drag(event)"
+                                      data-vegetable-id="{{ vegetable.id }}"
+                                      data-location-id="{{ location.id }}"
+                                >{{ vegetable.name }}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

@@ -441,4 +441,9 @@ class Vegetable
     {
         return $this->location;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
