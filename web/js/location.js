@@ -13,10 +13,14 @@ function drag(ev) {
 }
 
 function drop(ev) {
-    ev.preventDefault();
-    const vegetableId = ev.dataTransfer.getData('vegetableId');
-    const locationId = ev.dataTransfer.getData('locationId');
+    $('#vegetable-quantity-modal').modal('toggle');
+}
 
+function submit(locationId, vegetableId) {
+    ev.preventDefault();
+    /*const vegetableId = ev.dataTransfer.getData('vegetableId');
+    const locationId = ev.dataTransfer.getData('locationId');
+*/
     $.ajax({
         url: Routing.generate('update_location_vegetable', {
             'locationId': locationId,

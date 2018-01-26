@@ -69,8 +69,8 @@ class DefaultController extends Controller
 
         $locationForm->handleRequest($request);
         if ($locationForm->isSubmitted() && $locationForm->isValid()) {
-            $em->persist($location);
-            $em->flush();
+            //$em->persist($location);
+            //$em->flush();
         }
 
         return $this->render('backoffice/location.html.twig', array(
