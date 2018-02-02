@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VegetableLocation
+ * SoilType
  *
- * @ORM\Table(name="vegetable_location")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\VegetableLocationRepository")
+ * @ORM\Table(name="soil_type")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SoilTypeRepository")
  */
-class VegetableLocation
+class SoilType
 {
     /**
      * @var int
@@ -44,7 +44,7 @@ class VegetableLocation
      *
      * @param string $name
      *
-     * @return VegetableLocation
+     * @return SoilType
      */
     public function setName($name)
     {

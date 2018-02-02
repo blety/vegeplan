@@ -5,18 +5,13 @@
 {% endblock %}
 
 {% block title %}
-    Nouveau légume
+    {% if location.name == "Nouveau terrain" %}
+        {{ location.name }}
+    {% else %}
+        Terrain {{ location.name }}
+    {% endif %}
 {% endblock %}
-{% block menu %}
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><a href="{{ path('homepage', {'action': 'create'}) }}">Vegetables</a></li>
-            <li><a href="{{ path('location') }}">Emplacement</a></li>
-        </ul>
-    </div>
-</nav>
-{% endblock %}
+
 {% block body %}
     <div id="wrapper">
         <div class="container">
@@ -28,8 +23,12 @@
             </div>
             <div class="row">
                 <div class="col-md-8">
-                    <div id="location" ondragover="allowDrop(event)" ondrop="drop(event)">
-
+                    <div class="location" ondragover="allowDrop(event)" ondrop="drop(event)">
+                        {% for vegetable in locatedVegetables %}
+                            <div class="vegetable">
+                                {{ vegetable.surface }}
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -58,11 +57,11 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <p>Quantité <input id="vegetable-quantity" class="form-control" value="0" /></p>
+                    <p>Surface plantée (ha)<input id="vegetable-surface" class="form-control" value="0" /></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submit({{ location.id }}, {{ vegetable.id }})">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="submit({{ location.id }})">Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

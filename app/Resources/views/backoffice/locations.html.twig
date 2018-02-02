@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/location.css') }}" />
+{% endblock %}
+
+{% block title %}
+    Vos terrains
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center">Vos terrains</h1>
+                </div>
+            </div>
+            <div class="row">
+                {% for location in locations %}
+                    <div class="col-md-2">
+                        <a href="{{ path('location', {'locationId': location.id}) }}">
+                            <div class="location" data-location-id="{{ location.id }}"></div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/locations.js') }}"></script>
+{% endblock %}

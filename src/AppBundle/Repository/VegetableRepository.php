@@ -13,9 +13,9 @@ class VegetableRepository extends \Doctrine\ORM\EntityRepository
     public function saveVegetable(&$vegetable)
     {
         $surfaceNeeded = 0;
-        if ($vegetable->getLocation()->getName() == 'Plein champ' && !is_null($vegetable->getFieldedYield()) && $vegetable->getFieldedYield() !== 0) {
+        if ($vegetable->getSoilType()->getName() == 'Plein champ' && !is_null($vegetable->getFieldedYield()) && $vegetable->getFieldedYield() !== 0) {
             $surfaceNeeded = $vegetable->getObjective() / $vegetable->getFieldedYield();
-        }elseif ($vegetable->getLocation()->getName() == 'Abris' && !is_null($vegetable->getShelteredYield()) && $vegetable->getShelteredYield() !== 0) {
+        }elseif ($vegetable->getSoilType()->getName() == 'Abris' && !is_null($vegetable->getShelteredYield()) && $vegetable->getShelteredYield() !== 0) {
             $surfaceNeeded = $vegetable->getObjective() / $vegetable->getShelteredYield();
         }
         $vegetable->setSurfaceNeeded($surfaceNeeded);

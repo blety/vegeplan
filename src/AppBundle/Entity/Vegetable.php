@@ -102,6 +102,14 @@ class Vegetable
     /**
      * @var int
      *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SoilType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $soilType;
+
+    /**
+     * @var int
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\VegetableCategory")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -110,10 +118,10 @@ class Vegetable
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\VegetableLocation")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LocatedVegetable", mappedBy="vegetable")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $location;
+    private $locatedVegetable;
 
 
     /**
@@ -419,27 +427,39 @@ class Vegetable
     }
 
     /**
-     * Set location
+     * Set located vegetable
      *
-     * @param integer $location
+     * @param integer $locatedVegetable
      *
      * @return Vegetable
      */
-    public function setLocation($location)
+    public function setLocatedVegetable($locatedVegetable)
     {
-        $this->location = $location;
+        $this->locatedVegetable = $locatedVegetable;
 
         return $this;
     }
 
     /**
-     * Get location
+     * Get located vegetable
      *
      * @return int
      */
-    public function getLocation()
+    public function getLocatedVegetable()
     {
-        return $this->location;
+        return $this->locatedVegetable;
+    }
+
+    public function getSoilType()
+    {
+        return $this->soilType;
+    }
+
+    public function setSoilType(SoilType $soilType)
+    {
+        $this->soilType = $soilType;
+
+        return $this;
     }
 
     public function __toString()

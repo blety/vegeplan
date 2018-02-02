@@ -29,10 +29,8 @@ class Location
     private $name;
 
     /**
-     * @var arrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="Vegetable")
-     *
+     * @ORM\OneToMany(targetEntity="LocatedVegetable", mappedBy="location")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $vegetables;
 

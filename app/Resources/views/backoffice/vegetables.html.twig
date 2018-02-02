@@ -3,16 +3,7 @@
 {% block title %}
     Nouveau légume
 {% endblock %}
-{% block menu %}
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><a href="{{ path('homepage', {'action': 'create'}) }}">Vegetables</a></li>
-            <li><a href="{{ path('location') }}">Emplacement</a></li>
-        </ul>
-    </div>
-</nav>
-{% endblock %}
+
 {% block body %}
     <div id="wrapper">
         <div class="container">
@@ -79,10 +70,10 @@
                 {{ form_widget(vegetableForm.category, {'attr': {'class': 'form-control'}}) }}
                 </div>
 
-                {{ form_label(vegetableForm.location, 'Emplacement', {'label_attr': {'class': 'col-md-2 control-labe text-right'}}) }}
-                {{ form_errors(vegetableForm.location) }}
+                {{ form_label(vegetableForm.soilType, 'Emplacement', {'label_attr': {'class': 'col-md-2 control-labe text-right'}}) }}
+                {{ form_errors(vegetableForm.soilType) }}
                 <div class="col-md-3">
-                    {{ form_widget(vegetableForm.location, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_widget(vegetableForm.soilType, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
 
@@ -115,7 +106,7 @@
                     <tr>
                         <td>{{ vegetable.name }}</td>
                         <td>{{ vegetable.category.name }}</td>
-                        <td>{{ vegetable.location.name }}</td>
+                        <td>{{ vegetable.soilType.name }}</td>
                         <td class="text-center">{{ vegetable.unit }}</td>
                         <td class="text-center">{{ vegetable.price |number_format(2, ',', ' ')}}</td>
                         <td class="text-center">{{ vegetable.fieldedYield }}</td>

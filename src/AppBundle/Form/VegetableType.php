@@ -23,7 +23,7 @@ class VegetableType extends AbstractType
             ->add('quantity')
             ->add('distributionWeeks')
             ->add('category')
-            ->add('location')
+            ->add('soilType')
         ;
     }/**
      * {@inheritdoc}

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\LocatedVegetable;
 use AppBundle\Entity\Location;
 use AppBundle\Entity\Vegetable;
 use AppBundle\Form\LocationType;
@@ -37,7 +38,7 @@ class DefaultController extends Controller
         $vegetableForm = $this->createForm(VegetableType::class, $vegetable);
         $vegetableForm->handleRequest($request);
         if ($vegetableForm->isSubmitted() && $vegetableForm->isValid()) {
-            $em->getRepository(VegetableRepository::class)->saveVegetable($vegetable);
+            $em->getRepository(Vegetable::class)->saveVegetable($vegetable);
             $em->persist($vegetable);
             $em->flush();
         }
@@ -52,16 +53,27 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/location", name="location")
+     * @Route("/location/{locationId}", name="location")
      */
-    public function locationAction(Request $request)
+    public function locationAction(Request $request, $locationId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $location = new Location();
+        $location = $em->getRepository('AppBundle:Location')
+            ->findOneBy(array('id' => $locationId));
 
-        $em->persist($location);
-        $em->flush();
+        $locatedVegetables = array();
+        foreach ($location->getVegetables() as $k => $locatedVegetable) {
+            $locatedVegetables[$k]['vegetable'] = $locatedVegetable;
+            $locatedVegetables[$k]['surface'] = $locatedVegetable->getSurface();
+        }
+
+        if (is_null($location)) {
+            $location = new Location();
+
+            $em->persist($location);
+            $em->flush();
+        }
 
         $locationForm = $this->createForm(LocationType::class, $location);
 
@@ -77,24 +89,42 @@ class DefaultController extends Controller
             'locationForm' => $locationForm->createView(),
             'location' => $location,
             'allVegetables' => $allVegetables,
+            'locatedVegetables' => $locatedVegetables,
         ));
     }
 
     /**
-     * @Route("update-location-vegetable/{locationId}/{vegetableId}", name="update_location_vegetable", options={"expose"=true})
+     * @Route("update-location-vegetable/{locationId}/{vegetableId}/{surface}", name="update_location_vegetable", options={"expose"=true})
      */
-    public function updateLocationVegetable(Request $request, $locationId, $vegetableId)
+    public function updateLocationVegetable($locationId, $vegetableId, $surface = 0)
     {
         $em = $this->getDoctrine()->getManager();
 
         $vegetable = $em->getRepository('AppBundle:Vegetable')->findOneBy(array('id' => $vegetableId));
         $location = $em->getRepository('AppBundle:Location')->findOneBy(array('id' => $locationId));
 
-        $location->addVegetable($vegetable);
+        $locatedVegetable = new LocatedVegetable();
+        $locatedVegetable->setLocation($location);
+        $locatedVegetable->setVegetable($vegetable);
+        $locatedVegetable->setSurface($surface);
 
-        $em->persist($location);
+        $em->persist($locatedVegetable);
         $em->flush();
 
         return new JsonResponse(true);
+    }
+
+    /**
+     * @Route("/locations", name="locations")
+     */
+    public function locationsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $locations = $em->getRepository('AppBundle:Location')->findAll();
+
+        return $this->render('backoffice/locations.html.twig', array(
+            'locations' => $locations,
+        ));
     }
 }

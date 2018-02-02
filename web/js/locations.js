@@ -1,5 +1,7 @@
 $(document).ready(function () {
+    $('.location').on('click', function () {
 
+    });
 });
 
 function allowDrop(ev) {
