@@ -41,9 +41,6 @@ function drop(ev) {
 function submit(locationId) {
     const vegetableId = $('#vegetable-quantity-modal').data('vegetable');
     const surface = $('#vegetable-surface').val();
-    console.log(vegetableId);
-    console.log(locationId);
-    console.log(surface);
 
     $.ajax({
         url: Routing.generate('update_location_vegetable', {

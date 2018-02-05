@@ -32,8 +32,8 @@
                 <div class="col-md-8">
                     <div class="location" ondragover="allowDrop(event)" ondrop="drop(event)">
                         {% for vegetable in locatedVegetables %}
-                            <div class="vegetable">
-                                {{ vegetable.surface }}
+                            <div class="vegetable {{ 'vegetable-' ~ (vegetable.surface / totalSurface * 100) |number_format(0, ',', ' ') }} {{ 'vegetableId-' ~ vegetable.vegetable.id }}">
+                                {{ (vegetable.surface / totalSurface * 100) |number_format(0, ',', ' ')}}
                             </div>
                         {% endfor %}
                     </div>
@@ -70,9 +70,9 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="submit({{ location.id }})">Save changes</button>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

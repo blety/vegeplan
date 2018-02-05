@@ -63,9 +63,13 @@ class DefaultController extends Controller
             ->findOneBy(array('id' => $locationId));
 
         $locatedVegetables = array();
+
+        $totalSurface = 0.00;
+
         foreach ($location->getVegetables() as $k => $locatedVegetable) {
             $locatedVegetables[$k]['vegetable'] = $locatedVegetable;
             $locatedVegetables[$k]['surface'] = $locatedVegetable->getSurface();
+            $totalSurface += $locatedVegetable->getSurface();
         }
 
         if (is_null($location)) {
@@ -81,8 +85,7 @@ class DefaultController extends Controller
 
         $locationForm->handleRequest($request);
         if ($locationForm->isSubmitted() && $locationForm->isValid()) {
-            //$em->persist($location);
-            //$em->flush();
+
         }
 
         return $this->render('backoffice/location.html.twig', array(
@@ -90,6 +93,7 @@ class DefaultController extends Controller
             'location' => $location,
             'allVegetables' => $allVegetables,
             'locatedVegetables' => $locatedVegetables,
+            'totalSurface' => $totalSurface,
         ));
     }
 
@@ -103,10 +107,20 @@ class DefaultController extends Controller
         $vegetable = $em->getRepository('AppBundle:Vegetable')->findOneBy(array('id' => $vegetableId));
         $location = $em->getRepository('AppBundle:Location')->findOneBy(array('id' => $locationId));
 
-        $locatedVegetable = new LocatedVegetable();
-        $locatedVegetable->setLocation($location);
-        $locatedVegetable->setVegetable($vegetable);
-        $locatedVegetable->setSurface($surface);
+        $locatedVegetable = $em->getRepository('AppBundle:LocatedVegetable')
+            ->findOneBy(array('location' => $locationId, 'vegetable' => $vegetableId));
+
+        $surface = str_replace(',', '.', $surface);
+
+        if (is_null($locatedVegetable)) {
+            $locatedVegetable = new LocatedVegetable();
+            $locatedVegetable->setLocation($location);
+            $locatedVegetable->setVegetable($vegetable);
+            $locatedVegetable->setSurface($surface);
+        }else {
+            $locatedVegetable->setSurface($locatedVegetable->getSurface() + $surface);
+        }
+
 
         $em->persist($locatedVegetable);
         $em->flush();

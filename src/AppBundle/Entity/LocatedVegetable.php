@@ -36,7 +36,7 @@ class LocatedVegetable
     /**
      * @var string
      *
-     * @ORM\Column(name="surface", type="string", length=255)
+     * @ORM\Column(name="surface", type="decimal", precision=10, scale=2)
      */
     private $surface;
 
@@ -102,7 +102,7 @@ class LocatedVegetable
     /**
      * Set surface
      *
-     * @param string $surface
+     * @param decimal $surface
      *
      * @return LocatedVegetable
      */
@@ -116,7 +116,7 @@ class LocatedVegetable
     /**
      * Get surface
      *
-     * @return string
+     * @return decimal
      */
     public function getSurface()
     {
