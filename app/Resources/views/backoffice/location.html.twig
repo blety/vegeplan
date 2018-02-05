@@ -18,9 +18,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="text-center">Emplacement des légumes</h1>
-                    <h2 class="text-center">Terrain <input type="text" value="{{ location.name }}" placeholder="Nom du terrain" /></h2>
                 </div>
             </div>
+            <div class="row mb-4">
+                <div class="col-md-4 offset-md-3">
+                    <input id="saveNameInput" type="text" value="{{ location.name }}" placeholder="Nom du terrain" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <button id="saveName" type="button" class="btn btn-primary" data-location-id="{{location.id}}">Sauvegarder le nom du terrain</button>
+                </div>  
+            </div>    
             <div class="row">
                 <div class="col-md-8">
                     <div class="location" ondragover="allowDrop(event)" ondrop="drop(event)">

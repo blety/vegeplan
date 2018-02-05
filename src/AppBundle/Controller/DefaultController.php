@@ -115,16 +115,48 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/locations", name="locations")
+     * @Route("/locations/{new}", name="locations")
      */
-    public function locationsAction(Request $request)
+    public function locationsAction(Request $request, $new = null)
     {
         $em = $this->getDoctrine()->getManager();
+        
+        if (!is_null($new)) {
+            $location = new Location();
+            
+            $em->persist($location);
+            $em->flush();
+        }
 
         $locations = $em->getRepository('AppBundle:Location')->findAll();
 
         return $this->render('backoffice/locations.html.twig', array(
             'locations' => $locations,
         ));
+    }
+    
+    /**
+     * 
+     * @Route("/location-name-update/{locationId}/{name}", name="update_location_name", options={"expose"=true})
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param type $locationId
+     * @param type $name
+     */
+    public function updateLocationName(Request $request, $locationId, $name)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $location = $em->getRepository('AppBundle:Location')->findOneBy(array('id' => $locationId));
+        
+        if (is_null($location)) {
+            return new JsonResponse(false);
+        }else {
+            $location->setName($name);
+            $em->persist($location);
+            $em->flush();
+            
+            return new JsonResponse(true);
+        }
     }
 }

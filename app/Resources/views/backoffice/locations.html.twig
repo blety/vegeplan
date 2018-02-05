@@ -17,8 +17,14 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-12 text-center">
+                    <a id="newLocation" href="{{path('locations', {'new': true})}}" type="button" class="btn btn-success ">Nouveau terrain</a>
+                </div>
+            </div>    
+            <div class="row">
                 {% for location in locations %}
-                    <div class="col-md-2">
+                    <div class="col-md-2 text-center">
+                        <span>{{location.name}}</span>
                         <a href="{{ path('location', {'locationId': location.id}) }}">
                             <div class="location" data-location-id="{{ location.id }}"></div>
                         </a>
