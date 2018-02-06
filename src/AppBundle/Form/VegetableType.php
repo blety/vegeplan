@@ -21,6 +21,8 @@ class VegetableType extends AbstractType
             ->add('fieldedYield')
             ->add('shelteredYield')
             ->add('quantity')
+            ->add('primaryColor')
+            ->add('secondaryColor')
             ->add('distributionWeeks')
             ->add('category')
             ->add('soilType')

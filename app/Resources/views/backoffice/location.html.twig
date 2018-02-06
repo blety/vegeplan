@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    <div id="wrapper">
+    <div id="wrapper" class="mt-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -32,22 +32,31 @@
                 <div class="col-md-8">
                     <div class="location" ondragover="allowDrop(event)" ondrop="drop(event)">
                         {% for vegetable in locatedVegetables %}
-                            <div class="vegetable {{ 'vegetable-' ~ (vegetable.surface / totalSurface * 100) |number_format(0, ',', ' ') }} {{ 'vegetableId-' ~ vegetable.vegetable.id }}">
+                            {% if totalSurface > 0 %}
+                            <div class="vegetable {{ 'vegetable-' ~ (vegetable.surface / totalSurface * 100) |number_format(0, ',', ' ') }}"
+                                style="background-color: {{ vegetable.vegetable.vegetable.primaryColor }}; border: solid {{ vegetable.vegetable.vegetable.secondaryColor }} 3px;"
+                            >
                                 {{ (vegetable.surface / totalSurface * 100) |number_format(0, ',', ' ')}}
                             </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div id="vegetables-list">
-                        <ul>
+                        <ul style="list-style-type: none;">
                             {% for vegetable in allVegetables %}
-                            <li><span id="{{ 'vegetable-' ~ vegetable.id }}"
-                                      draggable="true"
-                                      ondragstart="drag(event)"
-                                      data-vegetable-id="{{ vegetable.id }}"
-                                      data-location-id="{{ location.id }}"
-                                >{{ vegetable.name }}</span></li>
+                                <li class="mb-2">
+                                    <span id="{{ 'vegetable-' ~ vegetable.id }}"
+                                          draggable="true"
+                                          ondragstart="drag(event)"
+                                          data-vegetable-id="{{ vegetable.id }}"
+                                          data-location-id="{{ location.id }}"
+                                    >
+                                        <span class="color-square" style="background-color: {{ vegetable.primaryColor }}; border: solid {{ vegetable.secondaryColor }} 3px;"></span>
+                                        {{ vegetable.name }}
+                                    </span>
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>

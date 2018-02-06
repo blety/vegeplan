@@ -9,9 +9,9 @@
     </head>
     <body>
         {% block menu %}
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ path('homepage', {'action': 'create'}) }}">Vegetables</a></li>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: groove lightgrey 2px;">
+                <ul id="top-menu" class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ path('homepage', {'action': 'create'}) }}">Légumes</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ path('locations') }}">Emplacements</a></li>
                 </ul>               
             </nav>
@@ -23,6 +23,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+        <script src="{{ asset('js/base.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

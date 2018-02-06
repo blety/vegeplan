@@ -413,12 +413,8 @@
     height: 400px;
 }
 
-.vegetableId-12 {
-    background-color: #66dd66;
-    border:solid #6b9311 2px;
-}
-
-.vegetableId-13 {
-    background-color: #0088CC;
-    border:solid #0000F0 2px;
+.color-square {
+    padding-left: 9px;
+    padding-right: 9px;
+    margin-right: 6px;
 }

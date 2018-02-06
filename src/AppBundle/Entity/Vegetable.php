@@ -123,6 +123,19 @@ class Vegetable
      */
     private $locatedVegetable;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="primaryColor", type="string", length=255)
+     */
+    private $primaryColor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="secondaryColor", type="string", length=255)
+     */
+    private $secondaryColor;
 
     /**
      * Get id
@@ -458,6 +471,30 @@ class Vegetable
     public function setSoilType(SoilType $soilType)
     {
         $this->soilType = $soilType;
+
+        return $this;
+    }
+
+    public function getPrimaryColor()
+    {
+        return $this->primaryColor;
+    }
+
+    public function setPrimaryColor($primaryColor)
+    {
+        $this->primaryColor = $primaryColor;
+
+        return $this;
+    }
+
+    public function getSecondaryColor()
+    {
+        return $this->secondaryColor;
+    }
+
+    public function setSecondaryColor($secondaryColor)
+    {
+        $this->secondaryColor = $secondaryColor;
 
         return $this;
     }

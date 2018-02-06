@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('lib/colorpicker/css/colorpicker.css') }}" />
+{% endblock %}
+
 {% block title %}
     Nouveau légume
 {% endblock %}
@@ -25,15 +29,13 @@
             <div class="form-group row">
                 {{ form_label(vegetableForm.price, 'Prix', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.price) }}
-                <div class="col-md-9">
+                <div class="col-md-3">
                 {{ form_widget(vegetableForm.price, {'attr': {'class': 'form-control'}}) }}
                 </div>
-            </div>
-            <div class="form-group row">
-                {{ form_label(vegetableForm.objective, 'Objectif de production (kg)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                {{ form_label(vegetableForm.objective, 'Objectif de production (kg)', {'label_attr': {'class': 'col-md-3 control-label text-right'}}) }}
                 {{ form_errors(vegetableForm.objective) }}
-                <div class="col-md-9">
-                {{ form_widget(vegetableForm.objective, {'attr': {'class': 'form-control'}}) }}
+                <div class="col-md-3">
+                    {{ form_widget(vegetableForm.objective, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
@@ -52,15 +54,25 @@
             <div class="form-group row">
                 {{ form_label(vegetableForm.quantity, 'Quantité à produire (kg) avec marge de sécurité (30%)', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
                 {{ form_errors(vegetableForm.quantity) }}
-                <div class="col-md-9">
+                <div class="col-md-3">
                 {{ form_widget(vegetableForm.quantity, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                {{ form_label(vegetableForm.distributionWeeks, 'Nombre de semaines de distribution', {'label_attr': {'class': 'col-md-3 control-label text-right'}}) }}
+                {{ form_errors(vegetableForm.distributionWeeks) }}
+                <div class="col-md-3">
+                    {{ form_widget(vegetableForm.distributionWeeks, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(vegetableForm.distributionWeeks, 'Nombre de semaines de distribution', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
-                {{ form_errors(vegetableForm.distributionWeeks) }}
-                <div class="col-md-9">
-                {{ form_widget(vegetableForm.distributionWeeks, {'attr': {'class': 'form-control'}}) }}
+                {{ form_label(vegetableForm.primaryColor, 'Couleur principale d\'affichage', {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                {{ form_errors(vegetableForm.primaryColor) }}
+                <div class="col-md-3">
+                    {{ form_widget(vegetableForm.primaryColor, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                {{ form_label(vegetableForm.secondaryColor, 'Couleur d\'encadrement', {'label_attr': {'class': 'col-md-3 control-label text-right'}}) }}
+                {{ form_errors(vegetableForm.secondaryColor) }}
+                <div class="col-md-3">
+                    {{ form_widget(vegetableForm.secondaryColor, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
@@ -134,6 +146,7 @@
     </div>
 {% endblock %}
 
-{% block stylesheets %}
-
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('lib/colorpicker/js/colorpicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/vegetables.js') }}"></script>
 {% endblock %}
