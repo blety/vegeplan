@@ -93,27 +93,27 @@
             {{ form_end(vegetableForm) }}
             </div>
         <div class="container-fluid">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr class="font-weight-bold">
-                        <td>Espèce</td>
-                        <td>Catégorie</td>
-                        <td>Emplacement</td>
-                        <td>Unité</td>
-                        <td>Prix</td>
-                        <td>Rendement plein champ / Ha</td>
-                        <td>Rendement abris / Ha</td>
-                        <td>Surface nécessaire en Ha</td>
-                        <td>Objectif de production en kg</td>
-                        <td>Quantité à produire en kg (avec pertes de 30%)</td>
-                        <td>Montant</td>
-                        <td># semaines de distribution</td>
-                        <td>Quantité par semaine</td>
-                        <td>Edit</td>
-                        <td>Delete</td>
+            <table class="table table-striped table-bordered table-hover table-sm">
+                <thead class="thead-dark">
+                    <tr class="text-center">
+                        <th>Espèce</th>
+                        <th>Catégorie</th>
+                        <th>Emplacement</th>
+                        <th>Unité</th>
+                        <th>Prix</th>
+                        <th>Rendement plein champ / Ha</th>
+                        <th>Rendement abris / Ha</th>
+                        <th>Surface nécessaire en Ha</th>
+                        <th>Objectif de production en kg</th>
+                        <th>Quantité à produire en kg (avec pertes de 30%)</th>
+                        <th>Montant</th>
+                        <th># semaines de distribution</th>
+                        <th>Quantité par semaine</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                 {% for vegetable in vegetables %}
                     <tr>
                         <td>{{ vegetable.name }}</td>

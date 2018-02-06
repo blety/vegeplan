@@ -1,5 +1,9 @@
 
 $(document).ready(function () {
+
+    $('#top-menu li').removeClass('active');
+    $('#vegetables-menu').addClass('active');
+
     $('#appbundle_vegetable_primaryColor').on('click', function () {
         $('#appbundle_vegetable_primaryColor').ColorPicker({
             onChange: function(hsb, hex, rgb) {

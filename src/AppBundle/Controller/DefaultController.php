@@ -173,4 +173,33 @@ class DefaultController extends Controller
             return new JsonResponse(true);
         }
     }
+
+    /**
+     * @Route("/objectives", name="objectives")
+     */
+    public function objectivesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $objectives = array();
+
+        $vegetables = $em->getRepository('AppBundle:Vegetable')
+            ->findAll();
+
+        $locatedVegetables = $em->getRepository('AppBundle:LocatedVegetable')
+            ->findAll();
+
+        /*foreach ($vegetables as $vegetable) {
+            foreach ($locatedVegetables as $locatedVegetable) {
+                if ($vegetable->getId() === $locatedVegetable->getVegetable()->getId()) {
+                    $objectives[$vegetable->getId()] += $locatedVegetable->getSurface();
+                }
+            }
+        }*/
+
+        return $this->render('backoffice/objectives.html.twig', array(
+            'vegetables' => $vegetables,
+            'objectives' => $objectives,
+        ));
+    }
 }
