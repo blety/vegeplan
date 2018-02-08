@@ -418,3 +418,29 @@
     padding-right: 9px;
     margin-right: 6px;
 }
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.vertical-horizontal-align {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vegetable-list {
+    border:grey 2px solid;
+    border-radius: 8px;
+    background-color: lightgray;
+    padding-top: 16px;
+}
+
+.location-form {
+    border:grey 2px solid;
+    border-radius: 8px;
+    background-color: lightgray;
+    padding-top: 16px;
+    padding-bottom: 14px;
+}

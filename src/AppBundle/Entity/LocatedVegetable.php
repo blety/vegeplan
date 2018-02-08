@@ -40,6 +40,18 @@ class LocatedVegetable
      */
     private $surface;
 
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="startDate", type="date")
+     */
+    private $startDate;
+
+    public function __construct()
+    {
+        $this->startDate = new \DateTime();
+    }
+
 
     /**
      * Get id
@@ -121,6 +133,18 @@ class LocatedVegetable
     public function getSurface()
     {
         return $this->surface;
+    }
+
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+
+        return $this;
     }
 }
 

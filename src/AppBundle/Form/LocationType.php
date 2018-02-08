@@ -16,6 +16,7 @@ class LocationType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('surface')
             ->add('vegetables', EntityType::class, array(
                 'class' => 'AppBundle:Vegetable',
                 'choice_label' => 'name',

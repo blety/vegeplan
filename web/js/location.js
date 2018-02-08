@@ -1,7 +1,8 @@
 $(document).ready(function () {
-    
+
+    // Sauvegarde du nom du terrain
     $('#saveName').on('click', function(){
-       const locationId = $('button').data('locationId');
+       const locationId = $('button#saveName').data('locationId');
        const name = $('#saveNameInput').val();
        
        $.ajax({
@@ -19,6 +20,28 @@ $(document).ready(function () {
                 }
             }
         }); 
+    });
+
+    // Sauvegarde de la surface du terrain
+    $('#saveSurface').on('click', function(){
+        const locationId = $('button#saveName').data('locationId');
+        const surface = $('#saveSurfaceInput').val();
+
+        $.ajax({
+            url: Routing.generate('update_location_surface', {
+                'locationId': locationId,
+                'surface': surface
+            }),
+            dataType: 'json',
+            type: "POST",
+            success: function (data) {
+                if (data === true) {
+                    console.log('saved');
+                }else {
+                    console.log('Erreur dans la sauvegarde de la surface du terrain');
+                }
+            }
+        });
     });
 });
 

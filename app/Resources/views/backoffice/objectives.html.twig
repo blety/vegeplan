@@ -16,18 +16,23 @@
                     <h1 class="text-center">Vos objectifs</h1>
                 </div>
             </div>
-
             {% for vegetable in vegetables %}
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        {{ vegetable.name }}
-                    </div>
-                    <div class="col-md-9">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ vegetable.objective }}">0%</div>
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            {{ vegetable.name }}
+                        </div>
+                        <div class="col-md-9">
+                            {% set objectiveValue = 0 %}
+                            {% for objective in objectives %}
+                                {% if vegetable.id == objective.vegetableId  %}
+                                    {% set objectiveValue = objective.surface %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="progress">
+                                <div class="progress-bar" style="width: {{ objectiveValue }}%" role="progressbar" aria-valuenow="{{ objectiveValue }}" aria-valuemin="0" aria-valuemax="{{ vegetable.objective }}">{{ objectiveValue }}%</div>
+                            </div>
                         </div>
                     </div>
-                </div>
             {% endfor %}
         </div>
     </div>

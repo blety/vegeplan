@@ -20,29 +20,43 @@
                     <h1 class="text-center">Emplacement des légumes</h1>
                 </div>
             </div>
-            <div class="row mb-4">
-                <div class="col-md-4 offset-md-3">
+            <div class="row mb-4 location-form">
+                <div class="col-md-3">
                     <input id="saveNameInput" type="text" value="{{ location.name }}" placeholder="Nom du terrain" class="form-control" />
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <button id="saveName" type="button" class="btn btn-primary" data-location-id="{{location.id}}">Sauvegarder le nom du terrain</button>
-                </div>  
-            </div>    
-            <div class="row">
+                </div>
+                <div class="col-md-3">
+                    <input id="saveSurfaceInput" type="text" value="{{ location.surface }}" placeholder="Surface du terrain (en Ha)" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <button id="saveSurface" type="button" class="btn btn-primary" data-location-id="{{location.id}}">Sauvegarder la surface du terrain</button>
+                </div>
+            </div>
+
+            <div class="row vertical-align">
                 <div class="col-md-8">
                     <div class="location" ondragover="allowDrop(event)" ondrop="drop(event)">
-                        {% for vegetable in locatedVegetables %}
-                            {% if totalSurface > 0 %}
-                            <div class="vegetable {{ 'vegetable-' ~ (vegetable.surface / totalSurface * 100) |number_format(0, ',', ' ') }}"
-                                style="background-color: {{ vegetable.vegetable.vegetable.primaryColor }}; border: solid {{ vegetable.vegetable.vegetable.secondaryColor }} 3px;"
-                            >
-                                {{ (vegetable.surface / totalSurface * 100) |number_format(0, ',', ' ')}}
+                        {% if location.surface > 0 %}
+                            {% for vegetable in locatedVegetables %}
+                                <div class="vegetable {{ 'vegetable-' ~ (vegetable.surface / location.surface * 100) |number_format(0, ',', ' ') }} vertical-horizontal-align"
+                                    style="background-color: {{ vegetable.vegetable.vegetable.primaryColor }}; border: solid {{ vegetable.vegetable.vegetable.secondaryColor }} 3px;"
+                                >
+                                    {{ vegetable.surface |number_format(2, ',', ' ')}} Ha
+                                    <br />
+                                   ({{ (vegetable.surface / location.surface * 100) |number_format(0, ',', ' ')}}%)
+                                </div>
+                            {% endfor %}
+                            <div class="vegetable {{ 'vegetable-' ~ ((location.surface - totalSurface) / location.surface * 100) |number_format(0, ',', ' ') }} vertical-horizontal-align">
+                                {{ (location.surface - totalSurface) |number_format(2, ',', ' ') }} Ha libres
+                                <br />
+                                ({{ ((location.surface - totalSurface) / location.surface * 100) |number_format(0, ',', ' ') }}%)
                             </div>
-                            {% endif %}
-                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 vegetable-list">
                     <div id="vegetables-list">
                         <ul style="list-style-type: none;">
                             {% for vegetable in allVegetables %}

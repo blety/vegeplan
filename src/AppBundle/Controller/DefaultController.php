@@ -175,6 +175,30 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/location-surface-update/{locationId}/{surface}", name="update_location_surface", options={"expose"=true})
+     *
+     * @param Request $request
+     * @param $locationId
+     * @param $surface
+     */
+    public function updateLocationSurface(Request $request, $locationId, $surface)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $location = $em->getRepository('AppBundle:Location')->findOneBy(array('id' => $locationId));
+
+        if (is_null($location)) {
+            return new JsonResponse(false);
+        }else {
+            $location->setSurface($surface);
+            $em->persist($location);
+            $em->flush();
+
+            return new JsonResponse(true);
+        }
+    }
+
+    /**
      * @Route("/objectives", name="objectives")
      */
     public function objectivesAction(Request $request)
@@ -189,13 +213,19 @@ class DefaultController extends Controller
         $locatedVegetables = $em->getRepository('AppBundle:LocatedVegetable')
             ->findAll();
 
-        /*foreach ($vegetables as $vegetable) {
+        foreach ($vegetables as $vegetable) {
             foreach ($locatedVegetables as $locatedVegetable) {
                 if ($vegetable->getId() === $locatedVegetable->getVegetable()->getId()) {
-                    $objectives[$vegetable->getId()] += $locatedVegetable->getSurface();
+                    $objectives[$vegetable->getId()]['locatedVegetable'] = $locatedVegetable;
+                    $objectives[$vegetable->getId()]['vegetableId'] = $locatedVegetable->getVegetable()->getId();
+                    if (array_key_exists($vegetable->getId(), $objectives) && array_key_exists('surface', $objectives[$vegetable->getId()])) {
+                        $objectives[$vegetable->getId()]['surface'] += $locatedVegetable->getSurface();
+                    }else {
+                        $objectives[$vegetable->getId()]['surface'] = $locatedVegetable->getSurface();
+                    }
                 }
             }
-        }*/
+        }
 
         return $this->render('backoffice/objectives.html.twig', array(
             'vegetables' => $vegetables,

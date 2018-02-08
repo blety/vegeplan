@@ -29,6 +29,11 @@ class Location
     private $name;
 
     /**
+     * @ORM\Column(name="surface", type="decimal", precision=10, scale=2)
+     */
+    private $surface;
+
+    /**
      * @ORM\OneToMany(targetEntity="LocatedVegetable", mappedBy="location")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -85,6 +90,18 @@ class Location
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getSurface()
+    {
+        return $this->surface;
+    }
+
+    public function setSurface($surface)
+    {
+        $this->surface = $surface;
+
+        return $this;
     }
 
     public function __toString()
