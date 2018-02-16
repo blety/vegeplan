@@ -20,6 +20,13 @@
                     <h1 class="text-center">Emplacement des légumes</h1>
                 </div>
             </div>
+            {% if location.surface <= 0 %}
+            <div class="row mb-2">
+                <div class="col-md-12 alert-warning surface-warning-label">
+                    Veuillez renseigner une taille de terrain supérieure à 0 ha avant d'y ajouter des légumes.
+                </div>
+            </div>
+            {% endif %}
             <div class="row mb-4 location-form">
                 <div class="col-md-3">
                     <input id="saveNameInput" type="text" value="{{ location.name }}" placeholder="Nom du terrain" class="form-control" />
@@ -62,7 +69,7 @@
                             {% for vegetable in allVegetables %}
                                 <li class="mb-2">
                                     <span id="{{ 'vegetable-' ~ vegetable.id }}"
-                                          draggable="true"
+                                          {% if location.surface > 0 %}draggable="true"{% else %}draggable="false"{% endif %}
                                           ondragstart="drag(event)"
                                           data-vegetable-id="{{ vegetable.id }}"
                                           data-location-id="{{ location.id }}"
@@ -74,6 +81,11 @@
                             {% endfor %}
                         </ul>
                     </div>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-2">
+                    <button id="calculateNextPeriod" class="btn btn-success text-center" data-location-id="{{ location.id }}">Quoi planter ?</button>
                 </div>
             </div>
         </div>

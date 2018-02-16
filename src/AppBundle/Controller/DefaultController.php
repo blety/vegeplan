@@ -79,17 +79,9 @@ class DefaultController extends Controller
             $em->flush();
         }
 
-        $locationForm = $this->createForm(LocationType::class, $location);
-
         $allVegetables = $em->getRepository('AppBundle:Vegetable')->findAll();
 
-        $locationForm->handleRequest($request);
-        if ($locationForm->isSubmitted() && $locationForm->isValid()) {
-
-        }
-
         return $this->render('backoffice/location.html.twig', array(
-            'locationForm' => $locationForm->createView(),
             'location' => $location,
             'allVegetables' => $allVegetables,
             'locatedVegetables' => $locatedVegetables,
@@ -181,7 +173,7 @@ class DefaultController extends Controller
      * @param $locationId
      * @param $surface
      */
-    public function updateLocationSurface(Request $request, $locationId, $surface)
+    public function updateLocationSurface($locationId, $surface)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -195,6 +187,36 @@ class DefaultController extends Controller
             $em->flush();
 
             return new JsonResponse(true);
+        }
+    }
+
+    /**
+     * @Route("/calculate-next-period/{locationId}", name="calculate_next_period", options={"expose"=true})
+     */
+    public function calculateNextPeriod(Request $request, $locationId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $location = $em->getRepository('AppBundle:Location')->findOneBy(array('id' => $locationId));
+
+        if (is_null($location)) {
+            return new JsonResponse(false);
+        }else {
+            $nextLocation = new Location();
+
+            $nextLocation->setName($location->getName(). ' - prévision');
+            $nextLocation->setSurface($location->getSurface());
+
+            $this->calculateNextVegetables($location->getVegetables());
+
+            return new JsonResponse(true);
+        }
+    }
+
+    public function calculateNextVegetables($vegetables)
+    {
+        foreach($vegetables as $vegetable) {
+            
         }
     }
 
@@ -213,23 +235,35 @@ class DefaultController extends Controller
         $locatedVegetables = $em->getRepository('AppBundle:LocatedVegetable')
             ->findAll();
 
+        $now = new \DateTime();
+
         foreach ($vegetables as $vegetable) {
             foreach ($locatedVegetables as $locatedVegetable) {
                 if ($vegetable->getId() === $locatedVegetable->getVegetable()->getId()) {
-                    $objectives[$vegetable->getId()]['locatedVegetable'] = $locatedVegetable;
-                    $objectives[$vegetable->getId()]['vegetableId'] = $locatedVegetable->getVegetable()->getId();
-                    if (array_key_exists($vegetable->getId(), $objectives) && array_key_exists('surface', $objectives[$vegetable->getId()])) {
-                        $objectives[$vegetable->getId()]['surface'] += $locatedVegetable->getSurface();
-                    }else {
-                        $objectives[$vegetable->getId()]['surface'] = $locatedVegetable->getSurface();
+                    $plantationDate = $locatedVegetable->getStartDate();
+                    $distributionWeeks = $locatedVegetable->getVegetable()->getDistributionWeeks();
+                    $interval = new \DateInterval('P'.(7*$distributionWeeks).'D');
+                    $plantationDate->add($interval);
+                    if (array_key_exists($plantationDate->format("Y"), $objectives)) {
+                        $objectives[$plantationDate->format("Y")][$vegetable->getId()]['vegetableId'] = $locatedVegetable->getVegetable()->getId();
+                        if (array_key_exists('surface', $objectives[$plantationDate->format("Y")][$vegetable->getId()])) {
+                            $objectives[$plantationDate->format("Y")][$vegetable->getId()]['surface'] += $locatedVegetable->getSurface();
+                        } else {
+                            $objectives[$plantationDate->format("Y")][$vegetable->getId()]['surface'] = $locatedVegetable->getSurface();
+                        }
+                    } else {
+                        $objectives[$plantationDate->format("Y")] = array($vegetable->getId() => ['vegetableId' => $locatedVegetable->getVegetable()->getId(), 'surface' => $locatedVegetable->getSurface()]);
                     }
                 }
             }
         }
 
+        krsort($objectives);
+
         return $this->render('backoffice/objectives.html.twig', array(
             'vegetables' => $vegetables,
             'objectives' => $objectives,
+            'now' => $now->format("Y"),
         ));
     }
 }

@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    $('#top-menu li').removeClass('active');
+    $('#locations-menu').addClass('active');
+
     // Sauvegarde du nom du terrain
     $('#saveName').on('click', function(){
        const locationId = $('button#saveName').data('locationId');
@@ -14,7 +17,7 @@ $(document).ready(function () {
             type: "POST",
             success: function (data) {
                 if (data === true) {
-                    console.log('saved');
+                    validationAnimation($('#saveNameInput'));
                 }else {
                     console.log('Erreur dans la sauvegarde du nom du terrain');
                 }
@@ -23,7 +26,7 @@ $(document).ready(function () {
     });
 
     // Sauvegarde de la surface du terrain
-    $('#saveSurface').on('click', function(){
+    $('#saveSurface').on('click', function() {
         const locationId = $('button#saveName').data('locationId');
         const surface = $('#saveSurfaceInput').val();
 
@@ -36,15 +39,42 @@ $(document).ready(function () {
             type: "POST",
             success: function (data) {
                 if (data === true) {
-                    console.log('saved');
+                    validationAnimation($('#saveSurfaceInput'));
+                    location.reload();
                 }else {
                     console.log('Erreur dans la sauvegarde de la surface du terrain');
                 }
             }
         });
     });
+
+    // Calcul de la location à la prochaine période
+    $('#calculateNextPeriod').on('click', function() {
+        var locationId = $(this).data('locationId');
+        $.ajax({
+            url: Routing.generate('calculate_next_period', {
+                'locationId': locationId,
+            }),
+            dataType: 'json',
+            type: "POST",
+            success: function (data) {
+                if (data) {
+                    $('.location').html(data);
+                }else {
+                    console.log('Erreur');
+                }
+            }
+        });
+    });
 });
 
+function validationAnimation(selector) {
+    selector.toggleClass('validated-input');
+
+    interval = setTimeout(function() {
+        selector.removeClass('validated-input');
+    }, 600);
+}
 
 function drag(ev) {
     ev.dataTransfer.setData('vegetableId', $(ev.target).data('vegetableId'));
