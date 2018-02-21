@@ -55,11 +55,13 @@
                                    ({{ (vegetable.surface / location.surface * 100) |number_format(0, ',', ' ')}}%)
                                 </div>
                             {% endfor %}
+                            {% if location.surface - totalSurface != 0 %}
                             <div class="vegetable {{ 'vegetable-' ~ ((location.surface - totalSurface) / location.surface * 100) |number_format(0, ',', ' ') }} vertical-horizontal-align">
                                 {{ (location.surface - totalSurface) |number_format(2, ',', ' ') }} Ha libres
                                 <br />
                                 ({{ ((location.surface - totalSurface) / location.surface * 100) |number_format(0, ',', ' ') }}%)
                             </div>
+                                {% endif %}
                         {% endif %}
                     </div>
                 </div>

@@ -1,0 +1,7 @@
+<div class="vegetable {{ 'vegetable-' ~ (surface / location.surface * 100) |number_format(0, ',', ' ') }} vertical-horizontal-align"
+     style="background-color: {{ vegetable.primaryColor }}; border: solid {{ vegetable.secondaryColor }} 3px;"
+>
+    {{ surface |number_format(2, ',', ' ')}} Ha
+    <br />
+    ({{ (surface / location.surface * 100) |number_format(0, ',', ' ')}}%)
+</div>

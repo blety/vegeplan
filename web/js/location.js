@@ -55,14 +55,17 @@ $(document).ready(function () {
             url: Routing.generate('calculate_next_period', {
                 'locationId': locationId,
             }),
-            dataType: 'json',
-            type: "POST",
+            //dataType: 'json',
+            //type: "POST",
             success: function (data) {
                 if (data) {
                     $('.location').html(data);
                 }else {
                     console.log('Erreur');
                 }
+            },
+            error: function (e) {
+                console.log(e);
             }
         });
     });

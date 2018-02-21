@@ -8,10 +8,13 @@ use AppBundle\Entity\Vegetable;
 use AppBundle\Form\LocationType;
 use AppBundle\Form\VegetableType;
 use AppBundle\Repository\VegetableRepository;
+use AppBundle\Service\Objective;
+use AppBundle\Service\Rendering;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -41,6 +44,11 @@ class DefaultController extends Controller
             $em->getRepository(Vegetable::class)->saveVegetable($vegetable);
             $em->persist($vegetable);
             $em->flush();
+
+            unset($vegetable);
+            unset($vegetableForm);
+            $vegetable = new Vegetable();
+            $vegetableForm = $this->createForm(VegetableType::class, $vegetable);
         }
 
         $vegetables = $em->getRepository('AppBundle:Vegetable')
@@ -193,7 +201,7 @@ class DefaultController extends Controller
     /**
      * @Route("/calculate-next-period/{locationId}", name="calculate_next_period", options={"expose"=true})
      */
-    public function calculateNextPeriod(Request $request, $locationId)
+    public function calculateNextPeriod(Request $request, Objective $objectiveService, Rendering $renderingService, $locationId)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -202,63 +210,73 @@ class DefaultController extends Controller
         if (is_null($location)) {
             return new JsonResponse(false);
         }else {
-            $nextLocation = new Location();
+            $divs = $this->calculateNextVegetables($location->getVegetables(), $objectiveService, $renderingService, $locationId);
 
-            $nextLocation->setName($location->getName(). ' - prévision');
-            $nextLocation->setSurface($location->getSurface());
+            $response = new JsonResponse($divs);
+            $response->setStatusCode(200);
 
-            $this->calculateNextVegetables($location->getVegetables());
-
-            return new JsonResponse(true);
+            return $response;
         }
     }
 
-    public function calculateNextVegetables($vegetables)
+    public function calculateNextVegetables($vegetables, Objective $objectiveService, Rendering $renderingService, $locationId)
     {
+        $nextVegetables = '';
         foreach($vegetables as $vegetable) {
-            
+            $nextVegetables .= $this->calculateNextVegetable($vegetable, $objectiveService, $renderingService, $locationId);
         }
+
+        return $nextVegetables;
+    }
+
+    public function calculateNextVegetable(LocatedVegetable $locatedVegetable, Objective $objectiveService, Rendering $renderingService, $locationId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $vegetable = $locatedVegetable->getVegetable();
+        $nextCategoryId = $vegetable->getCategory()->getId() + 1;
+        $nextCategory = $em->getRepository('AppBundle:VegetableCategory')->findOneBy(array(
+           'id' => $nextCategoryId
+        ));
+        $nextCategoryVegetables = $em->getRepository('AppBundle:Vegetable')->findBy(array(
+            'category' => $nextCategory
+        ));
+
+        $lowestProgress = 100.00;
+        $lowestProgressVegetableId = null;
+
+        foreach($nextCategoryVegetables as $nextCategoryVegetable) {
+            $nextCategoryObjective = $objectiveService->calculateObjective($nextCategoryVegetable);
+            if (array_key_exists('progress', $nextCategoryObjective)) {
+                if ($nextCategoryObjective['progress'] < $lowestProgress) {
+                    $lowestProgress = $nextCategoryObjective['progress'];
+                    $lowestProgressVegetableId = $nextCategoryObjective['vegetableId'];
+                }
+            }
+        }
+
+        $nextVegetable = $em->getRepository('AppBundle:Vegetable')->findOneBy(array(
+           'id' => $lowestProgressVegetableId,
+        ));
+
+        $div  = $renderingService->renderVegetable($nextVegetable, $locationId, $locatedVegetable->getSurface());
+
+        return $div;
     }
 
     /**
      * @Route("/objectives", name="objectives")
      */
-    public function objectivesAction(Request $request)
+    public function objectivesAction(Request $request, Objective $objectiveService)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $objectives = array();
 
         $vegetables = $em->getRepository('AppBundle:Vegetable')
             ->findAll();
 
-        $locatedVegetables = $em->getRepository('AppBundle:LocatedVegetable')
-            ->findAll();
-
         $now = new \DateTime();
 
-        foreach ($vegetables as $vegetable) {
-            foreach ($locatedVegetables as $locatedVegetable) {
-                if ($vegetable->getId() === $locatedVegetable->getVegetable()->getId()) {
-                    $plantationDate = $locatedVegetable->getStartDate();
-                    $distributionWeeks = $locatedVegetable->getVegetable()->getDistributionWeeks();
-                    $interval = new \DateInterval('P'.(7*$distributionWeeks).'D');
-                    $plantationDate->add($interval);
-                    if (array_key_exists($plantationDate->format("Y"), $objectives)) {
-                        $objectives[$plantationDate->format("Y")][$vegetable->getId()]['vegetableId'] = $locatedVegetable->getVegetable()->getId();
-                        if (array_key_exists('surface', $objectives[$plantationDate->format("Y")][$vegetable->getId()])) {
-                            $objectives[$plantationDate->format("Y")][$vegetable->getId()]['surface'] += $locatedVegetable->getSurface();
-                        } else {
-                            $objectives[$plantationDate->format("Y")][$vegetable->getId()]['surface'] = $locatedVegetable->getSurface();
-                        }
-                    } else {
-                        $objectives[$plantationDate->format("Y")] = array($vegetable->getId() => ['vegetableId' => $locatedVegetable->getVegetable()->getId(), 'surface' => $locatedVegetable->getSurface()]);
-                    }
-                }
-            }
-        }
-
-        krsort($objectives);
+        $objectives = $objectiveService->calculateObjectives();
 
         return $this->render('backoffice/objectives.html.twig', array(
             'vegetables' => $vegetables,
