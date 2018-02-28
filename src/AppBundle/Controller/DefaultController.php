@@ -10,6 +10,7 @@ use AppBundle\Form\VegetableType;
 use AppBundle\Repository\VegetableRepository;
 use AppBundle\Service\Objective;
 use AppBundle\Service\Rendering;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -259,9 +260,7 @@ class DefaultController extends Controller
            'id' => $lowestProgressVegetableId,
         ));
 
-        $div  = $renderingService->renderVegetable($nextVegetable, $locationId, $locatedVegetable->getSurface());
-
-        return $div;
+        return $renderingService->renderVegetable($nextVegetable, $locationId, $locatedVegetable->getSurface());
     }
 
     /**
@@ -283,5 +282,27 @@ class DefaultController extends Controller
             'objectives' => $objectives,
             'now' => $now->format("Y"),
         ));
+    }
+
+    /**
+     * @Route("/reset-vegetables/{locationId}", name="reset_vegetables")
+     */
+    public function resetVegetablesAction($locationId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $location = $em->getRepository('AppBundle:Location')->findOneBy(array(
+           'id' => $locationId,
+        ));
+
+        foreach($location->getVegetables() as $vegetable) {
+            $location->removeVegetable($vegetable);
+            $em->remove($vegetable);
+        }
+
+        $em->persist($location);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('location', array('locationId' => $locationId)));
     }
 }

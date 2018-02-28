@@ -81,6 +81,13 @@ class Location
         return $this;
     }
 
+    public function removeVegetable(LocatedVegetable $vegetable)
+    {
+        $this->vegetables->removeElement($vegetable);
+
+        return $this;
+    }
+
 
     /**
      * Get name

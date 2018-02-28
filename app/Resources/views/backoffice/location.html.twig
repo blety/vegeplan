@@ -43,7 +43,16 @@
             </div>
 
             <div class="row vertical-align">
-                <div class="col-md-8">
+                <div class="col-md-3 location-crud-buttons">
+                    <div class="mb-2">
+                        <a href="{{ path('reset_vegetables', {'locationId': location.id}) }}" id="resetVegetables" class="btn btn-danger" data-location-id="{{ location.id }}">Reset vegetables</a>
+                    </div>
+
+                    <div id="nextPeriodButtonWrapper" class="mb-2">
+                        <button id="calculateNextPeriod" class="btn btn-success text-center" data-location-id="{{ location.id }}">Quoi planter ?</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="location" ondragover="allowDrop(event)" ondrop="drop(event)">
                         {% if location.surface > 0 %}
                             {% for vegetable in locatedVegetables %}
@@ -71,7 +80,7 @@
                             {% for vegetable in allVegetables %}
                                 <li class="mb-2">
                                     <span id="{{ 'vegetable-' ~ vegetable.id }}"
-                                          {% if location.surface > 0 %}draggable="true"{% else %}draggable="false"{% endif %}
+                                          {% if location.surface > 0 and location.surface != totalSurface %}draggable="true"{% else %}draggable="false"{% endif %}
                                           ondragstart="drag(event)"
                                           data-vegetable-id="{{ vegetable.id }}"
                                           data-location-id="{{ location.id }}"
@@ -83,11 +92,6 @@
                             {% endfor %}
                         </ul>
                     </div>
-                </div>
-            </div>
-            <div class="row justify-content-center mt-4">
-                <div class="col-2">
-                    <button id="calculateNextPeriod" class="btn btn-success text-center" data-location-id="{{ location.id }}">Quoi planter ?</button>
                 </div>
             </div>
         </div>

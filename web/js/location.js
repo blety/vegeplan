@@ -60,14 +60,27 @@ $(document).ready(function () {
             success: function (data) {
                 if (data) {
                     $('.location').html(data);
-                }else {
-                    console.log('Erreur');
+                    $('#calculateNextPeriod').html();
+                    $('#nextPeriodButtonWrapper').html('<button class="btn btn-primary" onclick="location.reload();">Emplacement actuel</button>');
                 }
             },
             error: function (e) {
                 console.log(e);
             }
         });
+    });
+
+    // Validation de la popup d'ajout de légume
+    $('#vegetable-surface').on('change', function() {
+        console.log('test');
+        const vegetableSurface = $('#vegetable-surface').val();
+        const locationSurface = $('#saveSurfaceInput').val();
+
+        if (vegetableSurface > locationSurface) {
+            $('#vegetable-surface').css('border', '2px solid red');
+        }else {
+            $('#vegetable-surface').css('border', '2px solid green');
+        }
     });
 });
 
@@ -97,20 +110,23 @@ function drop(ev) {
 function submit(locationId) {
     const vegetableId = $('#vegetable-quantity-modal').data('vegetable');
     const surface = $('#vegetable-surface').val();
+    const locationSurface = $('#saveSurfaceInput').val();
 
-    $.ajax({
-        url: Routing.generate('update_location_vegetable', {
-            'locationId': locationId,
-            'vegetableId': vegetableId,
-            'surface': surface,
-        }),
-        dataType: 'json',
-        type: "POST",
-        success: function (data) {
-            if (data === true) {
-                $('#vegetable-quantity-modal').modal('hide');
-                location.reload();
+    if (surface <= locationSurface) {
+        $.ajax({
+            url: Routing.generate('update_location_vegetable', {
+                'locationId': locationId,
+                'vegetableId': vegetableId,
+                'surface': surface,
+            }),
+            dataType: 'json',
+            type: "POST",
+            success: function (data) {
+                if (data === true) {
+                    $('#vegetable-quantity-modal').modal('hide');
+                    location.reload();
+                }
             }
-        }
-    });
+        });
+    }
 }

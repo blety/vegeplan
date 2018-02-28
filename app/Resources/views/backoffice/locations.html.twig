@@ -26,7 +26,9 @@
                     <div class="col-md-2 text-center">
                         <span>{{location.name}}</span>
                         <a href="{{ path('location', {'locationId': location.id}) }}">
-                            <div class="location" data-location-id="{{ location.id }}"></div>
+                            <div class="location" data-location-id="{{ location.id }}">
+
+                            </div>
                         </a>
                     </div>
                 {% endfor %}

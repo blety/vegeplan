@@ -456,3 +456,15 @@
     border: solid 2px;
     border-color: green;
 }
+
+.location-crud-buttons {
+    border:grey 2px solid;
+    border-radius: 8px;
+    padding-top: 16px;
+}
+
+.location-crud-buttons > div {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
