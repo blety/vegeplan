@@ -28,17 +28,26 @@
             </div>
             {% endif %}
             <div class="row mb-4 location-form">
-                <div class="col-md-3">
+                <div class="col-2">
                     <input id="saveNameInput" type="text" value="{{ location.name }}" placeholder="Nom du terrain" class="form-control" />
                 </div>
-                <div class="col-md-3">
+                <div class="col-3">
                     <button id="saveName" type="button" class="btn btn-primary" data-location-id="{{location.id}}">Sauvegarder le nom du terrain</button>
                 </div>
-                <div class="col-md-3">
+                <div class="col-1">
                     <input id="saveSurfaceInput" type="text" value="{{ location.surface }}" placeholder="Surface du terrain (en Ha)" class="form-control" />
                 </div>
-                <div class="col-md-3">
-                    <button id="saveSurface" type="button" class="btn btn-primary" data-location-id="{{location.id}}">Sauvegarder la surface du terrain</button>
+                <div class="col-3">
+                    <button id="saveSurface" type="button" class="btn btn-primary" data-location-id="{{location.id}}" data-total-surface="{{ totalSurface }}">Sauvegarder la surface du terrain</button>
+                </div>
+                <div class="col-1 vertical-align">
+                    <label class="switch">
+                        <input id="saveSheltered" type="checkbox" value="{{ location.sheltered }}" {% if location.sheltered %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="col-2 vertical-align">
+                    <span>Est une serre ?</span>
                 </div>
             </div>
 

@@ -48,6 +48,21 @@ $(document).ready(function () {
         });
     });
 
+    $('#saveSheltered').on('click', function () {
+       const locationId = $('button#saveName').data('locationId');
+
+        $.ajax({
+            url: Routing.generate('switch_sheltered', {
+                'locationId': locationId,
+            }),
+            dataType: 'json',
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
     // Calcul de la location à la prochaine période
     $('#calculateNextPeriod').on('click', function() {
         var locationId = $(this).data('locationId');
@@ -70,17 +85,19 @@ $(document).ready(function () {
         });
     });
 
-    // Validation de la popup d'ajout de légume
-    $('#vegetable-surface').on('change', function() {
-        console.log('test');
-        const vegetableSurface = $('#vegetable-surface').val();
-        const locationSurface = $('#saveSurfaceInput').val();
-
-        if (vegetableSurface > locationSurface) {
-            $('#vegetable-surface').css('border', '2px solid red');
-        }else {
-            $('#vegetable-surface').css('border', '2px solid green');
-        }
+    $('#vegetable-quantity-modal').on('shown.bs.modal', function () {
+        console.log('aaaa');
+        // Validation de la popup d'ajout de légume
+        $('#vegetable-surface').on('change', function() {
+            const vegetableSurface = $('#vegetable-surface').val();
+            const locationSurface = $('#saveSurfaceInput').val() - $('#saveSurface').data('totalSurface');
+            console.log('test');
+            if (vegetableSurface > locationSurface) {
+                $('#vegetable-surface').css('border', '2px solid red');
+            }else {
+                $('#vegetable-surface').css('border', '2px solid green');
+            }
+        });
     });
 });
 
@@ -109,8 +126,8 @@ function drop(ev) {
 
 function submit(locationId) {
     const vegetableId = $('#vegetable-quantity-modal').data('vegetable');
-    const surface = $('#vegetable-surface').val();
-    const locationSurface = $('#saveSurfaceInput').val();
+    const surface = parseFloat($('#vegetable-surface').val().replace(',', '.')).toFixed(2);
+    const locationSurface = $('#saveSurfaceInput').val() - $('#saveSurface').data('totalSurface');
 
     if (surface <= locationSurface) {
         $.ajax({

@@ -39,6 +39,11 @@ class Location
      */
     private $vegetables;
 
+    /**
+     * @ORM\Column(name="sheltered", type="boolean")
+     */
+    private $sheltered;
+
     public function __construct()
     {
         $this->name = 'Nouveau terrain';
@@ -107,6 +112,18 @@ class Location
     public function setSurface($surface)
     {
         $this->surface = $surface;
+
+        return $this;
+    }
+
+    public function isSheltered()
+    {
+        return $this->sheltered;
+    }
+
+    public function setSheltered($sheltered)
+    {
+        $this->sheltered = $sheltered;
 
         return $this;
     }

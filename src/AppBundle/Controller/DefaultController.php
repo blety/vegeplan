@@ -305,4 +305,23 @@ class DefaultController extends Controller
 
         return $this->redirect($this->generateUrl('location', array('locationId' => $locationId)));
     }
+
+    /**
+     * @Route("/switch-sheltered/{locationId}", name="switch_sheltered", options={"expose"=true})
+     */
+    public function switchShelteredLocationAction($locationId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $location = $em->getRepository('AppBundle:Location')->findOneBy(array(
+           'id' => $locationId,
+        ));
+
+        $location->setSheltered(!$location->isSheltered());
+
+        $em->persist($location);
+        $em->flush();
+
+        return new JsonResponse(true);
+    }
 }
